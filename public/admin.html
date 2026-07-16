@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | बाबा त्रिवटीनाथ मन्दिर</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <style>
+    /* ── Admin Page Styles ── */
+    body { background: #f0e8d8; }
+
+    /* ── Top Bar ── */
+    .admin-topbar {
+      background: linear-gradient(135deg, var(--maroon-deep), var(--maroon), var(--brown-dark));
+      border-bottom: 3px solid var(--gold);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 24px rgba(0,0,0,.4);
+    }
+    .admin-topbar .brand {
+      display: flex; align-items: center; gap: .8rem;
+    }
+    .admin-topbar .brand .om {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff;
+      box-shadow: 0 0 14px rgba(240,192,96,.4);
+      flex-shrink: 0;
+    }
+    .admin-topbar .brand-text { line-height: 1.2; }
+    .admin-topbar .brand-text .title {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .admin-topbar .brand-text .sub {
+      font-size: .75rem;
+      color: #c8a060;
+      opacity: .85;
+    }
+    .admin-badge {
+      background: var(--gold);
+      color: var(--maroon-deep);
+      font-family: 'Cinzel', serif;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .3rem .9rem;
+      border-radius: 50px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    /* ── Page Body ── */
+    .admin-body { padding: 2rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+
+    /* ── Stat Cards ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--cream);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; gap: 1rem;
+      transition: box-shadow .2s;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-md); }
+    .stat-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: white; flex-shrink: 0;
+    }
+    .stat-icon.total   { background: linear-gradient(135deg, var(--maroon), var(--maroon-deep)); }
+    .stat-icon.daily   { background: linear-gradient(135deg, #2e7d32, #43a047); }
+    .stat-icon.occasion{ background: linear-gradient(135deg, #1565c0, #1976d2); }
+    .stat-icon.sometimes{ background: linear-gradient(135deg, var(--saffron), var(--gold)); }
+    .stat-num {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--maroon);
+      line-height: 1;
+    }
+    .stat-label { font-size: .8rem; color: var(--text-light); margin-top: .2rem; }
+
+    /* ── Table Panel ── */
+    .table-panel {
+      background: var(--cream);
+      border: 1px solid var(--border-gold);
+      border-radius: 12px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+    .table-panel-header {
+      background: linear-gradient(135deg, var(--maroon-deep), var(--maroon));
+      padding: 1.2rem 1.6rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .8rem;
+    }
+    .table-panel-header h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--gold-bright);
+      font-size: 1.05rem;
+      margin: 0;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .table-panel-header h2 i { color: var(--saffron-light); }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border-gold);
+      display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+      background: #fdf8f0;
+    }
+    .search-box {
+      flex: 1; min-width: 200px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: .55rem 1rem .55rem 2.4rem;
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius);
+      background: var(--cream);
+      color: var(--text-dark);
+      font-size: .9rem;
+    }
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,146,58,.15);
+    }
+    .search-box .search-icon {
+      position: absolute; left: .8rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light); font-size: .85rem;
+    }
+    .filter-select {
+      padding: .55rem .9rem;
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius);
+      background: var(--cream);
+      color: var(--text-dark);
+      font-size: .85rem;
+      cursor: pointer;
+    }
+    .filter-select:focus { outline: none; border-color: var(--gold); }
+    .btn-export {
+      padding: .55rem 1.1rem;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: white; border: none; border-radius: var(--radius);
+      font-family: 'Cinzel', serif; font-size: .8rem;
+      font-weight: 600; letter-spacing: .06em;
+      cursor: pointer; display: flex; align-items: center; gap: .5rem;
+      transition: all .2s;
+      box-shadow: 0 2px 10px rgba(212,96,10,.3);
+    }
+    .btn-export:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(212,96,10,.4); }
+    .btn-refresh {
+      padding: .55rem .9rem;
+      background: var(--cream-dark);
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius);
+      color: var(--maroon); font-size: .85rem;
+      cursor: pointer; transition: all .2s;
+    }
+    .btn-refresh:hover { background: var(--cream); border-color: var(--gold); }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .88rem;
+    }
+    thead tr {
+      background: linear-gradient(135deg, #fdf0dc, #f5e2bc);
+      border-bottom: 2px solid var(--gold);
+    }
+    thead th {
+      padding: .85rem 1rem;
+      font-family: 'Cinzel', serif;
+      font-size: .75rem;
+      letter-spacing: .07em;
+      color: var(--maroon);
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+      text-transform: uppercase;
+    }
+    thead th:hover { color: var(--saffron); }
+    thead th .sort-icon { margin-left: .4rem; opacity: .5; font-size: .65rem; }
+    thead th.sorted .sort-icon { opacity: 1; color: var(--saffron); }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(200,146,58,.15);
+      transition: background .15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(200,146,58,.07); }
+    tbody tr.even { background: rgba(253,246,236,.5); }
+    tbody tr.even:hover { background: rgba(200,146,58,.07); }
+
+    td { padding: .75rem 1rem; color: var(--text-dark); vertical-align: middle; }
+
+    /* ── ID Badge ── */
+    .id-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--maroon-deep), var(--maroon));
+      color: var(--gold-bright);
+      font-family: 'Cinzel', serif;
+      font-size: .72rem; font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+      letter-spacing: .08em;
+    }
+
+    /* ── Visit Badge ── */
+    .visit-badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .28rem .75rem;
+      border-radius: 50px;
+      font-size: .78rem; font-weight: 600;
+    }
+    .visit-badge.yes      { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+    .visit-badge.no       { background: #fff8e1; color: #e65100; border: 1px solid #ffcc80; }
+    .visit-badge.special  { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+
+    /* ── Phone ── */
+    .phone-cell { font-family: monospace; font-size: .9rem; letter-spacing: .04em; color: var(--maroon); }
+
+    /* ── Date Cell ── */
+    .date-cell { font-size: .8rem; color: var(--text-light); white-space: nowrap; }
+
+    /* ── Empty / Loading ── */
+    .empty-state, .loading-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-light);
+    }
+    .empty-state i, .loading-state i { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .loading-state i { color: var(--gold); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Pagination ── */
+    .pagination-bar {
+      padding: .9rem 1.4rem;
+      border-top: 1px solid var(--border-gold);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: .6rem;
+      background: #fdf8f0;
+    }
+    .page-info { font-size: .82rem; color: var(--text-light); }
+    .page-btns { display: flex; gap: .4rem; }
+    .page-btn {
+      width: 32px; height: 32px;
+      border: 1.5px solid var(--border-gold);
+      border-radius: 6px;
+      background: var(--cream);
+      color: var(--maroon);
+      font-size: .82rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .15s;
+      font-family: 'Cinzel', serif; font-weight: 600;
+    }
+    .page-btn:hover:not(:disabled) { background: var(--gold); color: white; border-color: var(--gold); }
+    .page-btn.active { background: var(--maroon); color: var(--gold-bright); border-color: var(--maroon); }
+    .page-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    /* ── Gold Divider ── */
+    .gold-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); margin: 1.5rem 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .admin-body { padding: 1rem; }
+      .stat-num { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="admin-topbar">
+  <div class="brand">
+    <div class="om">ॐ</div>
+    <div class="brand-text">
+      <div class="title">बाबा त्रिवटीनाथ मन्दिर</div>
+      <div class="sub">Bhakt Registration — Admin Panel</div>
+    </div>
+  </div>
+  <div class="admin-badge"><i class="fas fa-shield-alt me-1"></i> Admin</div>
+</div>
+
+<!-- ── BODY ── -->
+<div class="admin-body">
+
+  <!-- Stat Cards -->
+  <div class="stat-grid" id="stat-grid">
+    <div class="stat-card">
+      <div class="stat-icon total"><i class="fas fa-users"></i></div>
+      <div>
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-label">कुल पंजीकृत भक्त</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon daily"><i class="fas fa-pray"></i></div>
+      <div>
+        <div class="stat-num" id="stat-daily">—</div>
+        <div class="stat-label">प्रतिदिन दर्शन</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon sometimes"><i class="fas fa-calendar-alt"></i></div>
+      <div>
+        <div class="stat-num" id="stat-sometimes">—</div>
+        <div class="stat-label">कभी-कभी दर्शन</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon occasion"><i class="fas fa-star"></i></div>
+      <div>
+        <div class="stat-num" id="stat-special">—</div>
+        <div class="stat-label">विशेष अवसर पर</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Panel -->
+  <div class="table-panel">
+    <div class="table-panel-header">
+      <h2><i class="fas fa-table"></i> भक्त पंजीकरण सूची</h2>
+      <span style="font-size:.78rem;color:#c8a060;" id="last-updated"></span>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="search-input" placeholder="नाम या मोबाइल से खोजें..." oninput="applyFilters()"/>
+      </div>
+      <select class="filter-select" id="visit-filter" onchange="applyFilters()">
+        <option value="">सभी दर्शन प्रकार</option>
+        <option value="yes">🙏 प्रतिदिन</option>
+        <option value="no">📅 कभी-कभी</option>
+        <option value="special">🎉 विशेष अवसर</option>
+      </select>
+      <button class="btn-refresh" onclick="loadData()" title="Refresh">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+      <button class="btn-export" onclick="exportCSV()">
+        <i class="fas fa-file-csv"></i> CSV Export
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table id="reg-table">
+        <thead>
+          <tr>
+            <th onclick="sortBy('id')" id="th-id">
+              क्र.सं. <i class="fas fa-sort sort-icon"></i>
+            </th>
+            <th onclick="sortBy('full_name')" id="th-full_name">
+              पूरा नाम <i class="fas fa-sort sort-icon"></i>
+            </th>
+            <th onclick="sortBy('phone')" id="th-phone">
+              मोबाइल नंबर <i class="fas fa-sort sort-icon"></i>
+            </th>
+            <th onclick="sortBy('visit_type')" id="th-visit_type">
+              दर्शन प्रकार <i class="fas fa-sort sort-icon"></i>
+            </th>
+            <th onclick="sortBy('registered_at')" id="th-registered_at">
+              पंजीकरण तिथि <i class="fas fa-sort sort-icon"></i>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td colspan="5">
+              <div class="loading-state">
+                <i class="fas fa-spinner"></i>
+                <div>डेटा लोड हो रहा है...</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-bar">
+      <div class="page-info" id="page-info">—</div>
+      <div class="page-btns" id="page-btns"></div>
+    </div>
+  </div>
+
+</div><!-- /.admin-body -->
+
+<script>
+  // ── Config ────────────────────────────────────────
+  const API_BASE   = '';  // Netlify: uses relative URLs
+  const PAGE_SIZE  = 15;
+
+  // ── State ─────────────────────────────────────────
+  let allData      = [];
+  let filtered     = [];
+  let currentPage  = 1;
+  let sortCol      = 'id';
+  let sortDir      = 'desc';
+
+  // ── Visit labels ──────────────────────────────────
+  const visitLabel = {
+    yes    : { icon: '🙏', text: 'प्रतिदिन',      cls: 'yes'     },
+    no     : { icon: '📅', text: 'कभी-कभी',        cls: 'no'      },
+    special: { icon: '🎉', text: 'विशेष अवसर',     cls: 'special' }
+  };
+
+  // ── Load data from API ────────────────────────────
+  async function loadData() {
+    document.getElementById('table-body').innerHTML = `
+      <tr><td colspan="5">
+        <div class="loading-state"><i class="fas fa-spinner"></i><div>डेटा लोड हो रहा है...</div></div>
+      </td></tr>`;
+    try {
+      const res  = await fetch(`${API_BASE}/api/registrations`);
+      const json = await res.json();
+      allData    = json.data || [];
+      updateStats();
+      applyFilters();
+      const now = new Date();
+      document.getElementById('last-updated').textContent =
+        `अपडेट: ${now.toLocaleTimeString('hi-IN')}`;
+    } catch (err) {
+      document.getElementById('table-body').innerHTML = `
+        <tr><td colspan="5">
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle" style="color:#e74c3c;"></i>
+            <div>सर्वर से डेटा नहीं मिला।<br><small>सुनिश्चित करें कि <code>node server.js</code> चल रहा है।</small></div>
+          </div>
+        </td></tr>`;
+    }
+  }
+
+  // ── Stats ─────────────────────────────────────────
+  function updateStats() {
+    document.getElementById('stat-total').textContent    = allData.length;
+    document.getElementById('stat-daily').textContent    = allData.filter(r => r.visit_type === 'yes').length;
+    document.getElementById('stat-sometimes').textContent= allData.filter(r => r.visit_type === 'no').length;
+    document.getElementById('stat-special').textContent  = allData.filter(r => r.visit_type === 'special').length;
+  }
+
+  // ── Filters + Search ──────────────────────────────
+  function applyFilters() {
+    const q      = document.getElementById('search-input').value.trim().toLowerCase();
+    const vType  = document.getElementById('visit-filter').value;
+
+    filtered = allData.filter(row => {
+      const matchQ = !q ||
+        row.full_name.toLowerCase().includes(q) ||
+        row.phone.includes(q);
+      const matchV = !vType || row.visit_type === vType;
+      return matchQ && matchV;
+    });
+
+    currentPage = 1;
+    sortData();
+    renderTable();
+    renderPagination();
+  }
+
+  // ── Sort ──────────────────────────────────────────
+  function sortBy(col) {
+    if (sortCol === col) {
+      sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortCol = col;
+      sortDir = col === 'id' ? 'desc' : 'asc';
+    }
+    // Update header icons
+    document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+    const thEl = document.getElementById('th-' + col);
+    if (thEl) {
+      thEl.classList.add('sorted');
+      thEl.querySelector('.sort-icon').className =
+        `fas fa-sort-${sortDir === 'asc' ? 'up' : 'down'} sort-icon`;
+    }
+    sortData();
+    renderTable();
+    renderPagination();
+  }
+
+  function sortData() {
+    filtered.sort((a, b) => {
+      let va = a[sortCol] ?? '';
+      let vb = b[sortCol] ?? '';
+      if (sortCol === 'id') { va = +va; vb = +vb; }
+      else { va = String(va).toLowerCase(); vb = String(vb).toLowerCase(); }
+      if (va < vb) return sortDir === 'asc' ? -1 : 1;
+      if (va > vb) return sortDir === 'asc' ?  1 : -1;
+      return 0;
+    });
+  }
+
+  // ── Render Table ──────────────────────────────────
+  function renderTable() {
+    const tbody   = document.getElementById('table-body');
+    const start   = (currentPage - 1) * PAGE_SIZE;
+    const pageRows= filtered.slice(start, start + PAGE_SIZE);
+
+    if (!pageRows.length) {
+      tbody.innerHTML = `
+        <tr><td colspan="5">
+          <div class="empty-state">
+            <i class="fas fa-search" style="color:var(--gold);"></i>
+            <div>कोई रिकॉर्ड नहीं मिला।</div>
+          </div>
+        </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = pageRows.map((row, i) => {
+      const v    = visitLabel[row.visit_type] || { icon: '?', text: row.visit_type, cls: 'no' };
+      const date = formatDate(row.registered_at);
+      const padId= String(row.id).padStart(4, '0');
+      return `
+        <tr class="${(start + i) % 2 === 0 ? '' : 'even'}">
+          <td><span class="id-badge">#${padId}</span></td>
+          <td><strong>${escHtml(row.full_name)}</strong></td>
+          <td><span class="phone-cell">+91 ${formatPhone(row.phone)}</span></td>
+          <td><span class="visit-badge ${v.cls}">${v.icon} ${v.text}</span></td>
+          <td><span class="date-cell">${date}</span></td>
+        </tr>`;
+    }).join('');
+  }
+
+  // ── Pagination ────────────────────────────────────
+  function renderPagination() {
+    const total = filtered.length;
+    const pages = Math.ceil(total / PAGE_SIZE);
+    const start = (currentPage - 1) * PAGE_SIZE + 1;
+    const end   = Math.min(currentPage * PAGE_SIZE, total);
+
+    document.getElementById('page-info').textContent =
+      total ? `${start}–${end} / कुल ${total} रिकॉर्ड` : 'कोई रिकॉर्ड नहीं';
+
+    const btns = document.getElementById('page-btns');
+    if (pages <= 1) { btns.innerHTML = ''; return; }
+
+    let html = `<button class="page-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>
+                  <i class="fas fa-chevron-left"></i></button>`;
+
+    for (let p = 1; p <= pages; p++) {
+      if (pages > 7 && p > 2 && p < pages - 1 && Math.abs(p - currentPage) > 1) {
+        if (p === 3 || p === pages - 2) html += `<button class="page-btn" disabled>…</button>`;
+        continue;
+      }
+      html += `<button class="page-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+    }
+
+    html += `<button class="page-btn" onclick="goPage(${currentPage+1})" ${currentPage===pages?'disabled':''}>
+               <i class="fas fa-chevron-right"></i></button>`;
+    btns.innerHTML = html;
+  }
+
+  function goPage(p) {
+    const pages = Math.ceil(filtered.length / PAGE_SIZE);
+    if (p < 1 || p > pages) return;
+    currentPage = p;
+    renderTable();
+    renderPagination();
+    document.querySelector('.table-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── CSV Export ────────────────────────────────────
+  function exportCSV() {
+    if (!filtered.length) { alert('कोई डेटा नहीं है।'); return; }
+    const headers = ['ID', 'पूरा नाम', 'मोबाइल', 'दर्शन प्रकार', 'पंजीकरण तिथि'];
+    const rows = filtered.map(r => [
+      r.id,
+      `"${r.full_name}"`,
+      '+91' + r.phone,
+      visitLabel[r.visit_type]?.text || r.visit_type,
+      r.registered_at
+    ]);
+    const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'Trivatinath_Bhakt_Registrations.csv';
+    a.click(); URL.revokeObjectURL(url);
+  }
+
+  // ── Helpers ───────────────────────────────────────
+  function formatDate(dt) {
+    if (!dt) return '—';
+    const d = new Date(dt);
+    if (isNaN(d)) return dt;
+    return d.toLocaleString('hi-IN', {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  function formatPhone(p) {
+    if (!p) return '—';
+    const s = p.replace(/\D/g, '');
+    return s.length === 10 ? `${s.slice(0,5)} ${s.slice(5)}` : s;
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Init ──────────────────────────────────────────
+  loadData();
+  // Auto-refresh every 30 seconds
+  setInterval(loadData, 30000);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

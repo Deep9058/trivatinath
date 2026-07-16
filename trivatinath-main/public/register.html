@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>बाबा त्रिवटीनाथ मन्दिर</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+  <style>
+    #reg-hero {
+      background: linear-gradient(160deg, var(--maroon-deep) 0%, var(--maroon) 50%, var(--brown-dark) 100%);
+      padding: 5rem 1rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #reg-hero::before {
+      content: 'ॐ';
+      position: absolute;
+      font-size: 22rem;
+      color: rgba(255,255,255,.04);
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      pointer-events: none;
+      font-family: 'Tiro Devanagari Hindi', serif;
+      line-height: 1;
+    }
+    #reg-hero .hero-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: .82rem; letter-spacing: .18em;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+      margin-bottom: .8rem; opacity: .85;
+    }
+    #reg-hero h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.6rem, 5vw, 2.8rem);
+      color: var(--cream); margin-bottom: .6rem;
+    }
+    #reg-hero p { color: #d4b090; max-width: 480px; margin: 0 auto; font-size: .95rem; }
+
+    /* ── Card ── */
+    .reg-card {
+      background: var(--cream);
+      border: 1px solid var(--border-gold);
+      border-radius: 10px;
+      box-shadow: var(--shadow-lg);
+      padding: 0;
+      max-width: 560px;
+      margin: -2.5rem auto 3rem;
+      position: relative; z-index: 2;
+      overflow: hidden;
+    }
+
+    /* ── Tab switcher ── */
+    .tab-switcher {
+      display: flex;
+      border-bottom: 2px solid var(--border-gold);
+    }
+    .tab-btn {
+      flex: 1; padding: 1.1rem 1rem;
+      background: var(--cream-dark);
+      border: none; cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: .88rem; letter-spacing: .08em; font-weight: 600;
+      color: var(--text-mid);
+      transition: all .25s;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+    }
+    .tab-btn:first-child { border-right: 1px solid var(--border-gold); }
+    .tab-btn.active {
+      background: var(--cream);
+      color: var(--maroon);
+      border-bottom: 3px solid var(--saffron);
+      margin-bottom: -2px;
+    }
+    .tab-btn i { font-size: 1rem; }
+
+    .tab-pane { display: none; padding: 2rem 2rem 2.5rem; }
+    .tab-pane.active { display: block; }
+
+    /* ── Card Header ── */
+    .reg-card-header { text-align: center; margin-bottom: 1.8rem; }
+    .reg-card-header .om-circle {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto .9rem;
+      font-size: 1.6rem; color: white;
+      box-shadow: 0 4px 18px rgba(212,96,10,.35);
+    }
+    .reg-card-header h2 { font-size: 1.25rem; color: var(--maroon); margin-bottom: .25rem; }
+    .reg-card-header p { color: var(--text-mid); font-size: .86rem; }
+
+    /* ── Form Controls ── */
+    .form-label {
+      font-family: 'Cinzel', serif;
+      font-size: .78rem; letter-spacing: .07em;
+      color: var(--maroon); font-weight: 600; margin-bottom: .4rem;
+    }
+    .form-control, .form-select {
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius);
+      background: #fffdf8; color: var(--text-dark);
+      font-size: .95rem; padding: .65rem 1rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,146,58,.18);
+      background: #fff; outline: none;
+    }
+    .form-control::placeholder { color: #b89060; opacity: .7; }
+    .form-control.is-invalid { border-color: #c0392b; box-shadow: 0 0 0 3px rgba(192,57,43,.12); }
+    .invalid-feedback { font-size: .8rem; color: #c0392b; }
+
+    /* ── Visit Toggle ── */
+    .visit-toggle-group { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .visit-toggle-group input[type="radio"] { display: none; }
+    .visit-toggle-group label {
+      flex: 1; min-width: 100px; padding: .65rem .5rem;
+      border: 1.5px solid var(--border-gold);
+      border-radius: var(--radius);
+      background: #fffdf8;
+      text-align: center; cursor: pointer;
+      font-size: .85rem; color: var(--text-mid);
+      transition: all var(--transition);
+      font-family: 'Tiro Devanagari Hindi', serif;
+    }
+    .visit-toggle-group input[type="radio"]:checked + label {
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: white; border-color: transparent; font-weight: 600;
+      box-shadow: 0 3px 12px rgba(212,96,10,.3);
+    }
+    .visit-toggle-group label:hover { border-color: var(--gold); background: var(--cream-dark); }
+
+    /* ── Buttons ── */
+    .btn-reg-submit {
+      width: 100%; padding: .85rem;
+      background: linear-gradient(135deg, var(--maroon-deep) 0%, var(--maroon) 100%);
+      color: var(--gold-bright);
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      font-family: 'Cinzel', serif;
+      font-size: .92rem; letter-spacing: .08em; font-weight: 600;
+      cursor: pointer; transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(92,18,18,.3);
+    }
+    .btn-reg-submit:hover {
+      background: linear-gradient(135deg, var(--maroon) 0%, var(--saffron) 100%);
+      transform: translateY(-1px); box-shadow: 0 6px 22px rgba(92,18,18,.4);
+    }
+    .btn-reg-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; }
+
+    .btn-download {
+      display: inline-flex; align-items: center; gap: .6rem;
+      padding: .75rem 1.6rem;
+      background: linear-gradient(135deg, var(--saffron), var(--gold));
+      color: white; border: none; border-radius: var(--radius);
+      font-family: 'Cinzel', serif;
+      font-size: .84rem; font-weight: 600; letter-spacing: .06em;
+      cursor: pointer; transition: all var(--transition);
+      box-shadow: 0 4px 16px rgba(212,96,10,.4);
+      text-decoration: none;
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,96,10,.5); color: white; }
+    .btn-download.maroon-btn {
+      background: linear-gradient(135deg, var(--maroon-deep), var(--maroon));
+      box-shadow: 0 4px 16px rgba(92,18,18,.3);
+    }
+    .btn-download.maroon-btn:hover { box-shadow: 0 8px 24px rgba(92,18,18,.4); }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block; width: 16px; height: 16px;
+      border: 2px solid rgba(255,215,0,.4);
+      border-top-color: var(--gold-bright);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Alert Boxes ── */
+    .alert-box {
+      display: none; border-radius: var(--radius);
+      padding: .9rem 1.1rem; margin-bottom: 1.1rem; font-size: .9rem;
+    }
+    .alert-error { background: #fff0f0; border: 1px solid #e74c3c; color: #c0392b; }
+    .alert-warn  { background: #fff8e0; border: 1px solid var(--gold); color: var(--maroon); }
+    .alert-box i { margin-right: .5rem; }
+
+    /* ── Success ── */
+    #success-box, #login-success-box {
+      display: none; text-align: center;
+      padding: 1.8rem 1rem; animation: fadeIn .4s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+    .success-icon {
+      width: 68px; height: 68px;
+      background: linear-gradient(135deg, #2e7d32, #43a047);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.1rem;
+      font-size: 1.9rem; color: white;
+      box-shadow: 0 4px 20px rgba(46,125,50,.35);
+    }
+    .success-box-title { color: var(--maroon); font-size: 1.35rem; margin-bottom: .4rem; }
+    .success-box-sub { color: var(--text-mid); font-size: .9rem; margin-bottom: 1.4rem; }
+    .registered-name { font-family: 'Cinzel', serif; color: var(--saffron); font-weight: 700; font-size: 1.05rem; }
+
+    .reg-id-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--maroon-deep), var(--maroon));
+      color: var(--gold-bright);
+      padding: .35rem 1.1rem; border-radius: 50px;
+      font-family: 'Cinzel', serif; font-size: .82rem; letter-spacing: .1em;
+      margin-bottom: 1.1rem; border: 1px solid var(--gold);
+    }
+
+    /* ── Detail table (login success) ── */
+    .detail-table {
+      width: 100%; border-collapse: collapse;
+      margin: 1rem 0 1.4rem; text-align: left;
+      font-size: .9rem;
+    }
+    .detail-table tr:nth-child(even) td { background: rgba(200,146,58,.07); }
+    .detail-table td {
+      padding: .55rem .8rem;
+      border-bottom: 1px solid var(--border-gold);
+      color: var(--text-dark);
+    }
+    .detail-table td:first-child {
+      font-family: 'Cinzel', serif; font-size: .75rem;
+      color: var(--maroon); font-weight: 600; white-space: nowrap;
+      width: 42%;
+    }
+
+    /* ── Download buttons row ── */
+    .download-row {
+      display: flex; gap: .8rem; justify-content: center; flex-wrap: wrap;
+      margin-top: .5rem;
+    }
+
+    /* ── Gold divider ── */
+    .gold-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.4rem 0;
+    }
+
+    /* ── Phone prefix ── */
+    .input-group-text {
+      background: var(--cream-dark);
+      border: 1.5px solid var(--border-gold); border-right: none;
+      color: var(--text-mid); font-size: .9rem;
+      border-radius: var(--radius) 0 0 var(--radius);
+    }
+    .input-group .form-control { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    /* ── Info strip ── */
+    .info-strip {
+      background: var(--cream-dark);
+      border-top: 1px solid var(--border-gold);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 1.2rem 0; margin-bottom: 3rem;
+    }
+    .info-strip-item { display: flex; align-items: center; gap: .6rem; color: var(--text-mid); font-size: .88rem; }
+    .info-strip-item i { color: var(--saffron); font-size: 1.1rem; width: 22px; text-align: center; }
+
+    /* ── Switch link ── */
+    .switch-link {
+      text-align: center; margin-top: 1.2rem; font-size: .85rem; color: var(--text-mid);
+    }
+    .switch-link a { color: var(--saffron); font-weight: 600; cursor: pointer; text-decoration: none; }
+    .switch-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav id="mainNav" class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <img src="mandir-logo.png" alt="Mandir Logo" class="custom-logo"/>
+      <div>
+        <div class="brand-text-main">बाबा त्रिवटीनाथ मन्दिर</div>
+        <div class="brand-text-sub">नाथ नगरी, बरेली</div>
+      </div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">मुख्य पृष्ठ</a></li>
+        <li class="nav-item"><a class="nav-link" href="history.html">इतिहास</a></li>
+        <li class="nav-item"><a class="nav-link" href="additions.html">मन्दिर विकास</a></li>
+        <li class="nav-item"><a class="nav-link" href="events.html">कार्यक्रम व आरती</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="live.html" style="display:flex;align-items:center;gap:.4rem;">
+            <span class="live-dot" style="width:7px;height:7px;display:inline-block;border-radius:50%;background:#e00;animation:live-pulse 1.4s ease-in-out infinite;"></span>&nbsp;लाइव आरती
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link active-page" href="register.html">पंजीकरण</a></li>
+        <li class="nav-item"><a class="nav-link" href="management.html">प्रबंधन समिति</a></li>  
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="reg-hero">
+  <div class="hero-eyebrow">🛕 श्री त्रिवटीनाथ सेवा</div>
+  <h1>भक्त पंजीकरण / लॉगिन</h1>
+  <p>मन्दिर परिवार का हिस्सा बनें — नया पंजीकरण करें या अपने विवरण देखें</p>
+</section>
+
+<!-- ── INFO STRIP ── -->
+<div class="info-strip">
+  <div class="container">
+    <div class="row g-3 justify-content-center text-center text-md-start">
+      <div class="col-12 col-md-4">
+        <div class="info-strip-item justify-content-center justify-content-md-start">
+          <i class="fas fa-shield-alt"></i><span>आपकी जानकारी सुरक्षित है</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="info-strip-item justify-content-center">
+          <i class="fas fa-bell"></i><span>आरती व उत्सव की सूचना पाएँ</span>
+        </div>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="info-strip-item justify-content-center justify-content-md-end">
+          <i class="fas fa-database"></i><span>डेटा सुरक्षित डेटाबेस में सहेजा जाता है</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN CARD ── -->
+<div class="container px-3">
+  <div class="reg-card">
+
+    <!-- Tab Switcher -->
+    <div class="tab-switcher">
+      <button class="tab-btn active" id="tab-register-btn" onclick="switchTab('register')">
+        <i class="fas fa-user-plus"></i> नया पंजीकरण
+      </button>
+      <button class="tab-btn" id="tab-login-btn" onclick="switchTab('login')">
+        <i class="fas fa-sign-in-alt"></i> लॉगिन करें
+      </button>
+    </div>
+
+    <!-- ══════════ REGISTER TAB ══════════ -->
+    <div class="tab-pane active" id="tab-register">
+
+      <div class="reg-card-header">
+        <div class="om-circle">ॐ</div>
+        <h2>विवरण भरें</h2>
+        <p>नाम, मोबाइल नंबर और दर्शन की जानकारी दर्ज करें</p>
+      </div>
+
+      <div class="gold-divider"></div>
+
+      <div class="alert-box alert-error" id="api-error-box">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="api-error-msg">कुछ गड़बड़ हुई। कृपया पुनः प्रयास करें।</span>
+      </div>
+      <div class="alert-box alert-warn" id="duplicate-box">
+        <i class="fas fa-info-circle" style="color:var(--saffron);"></i>
+        यह मोबाइल नंबर पहले से पंजीकृत है।
+        <a onclick="switchTab('login')" style="color:var(--saffron);cursor:pointer;font-weight:600;"> लॉगिन करें →</a>
+      </div>
+
+      <!-- Register Form -->
+      <div id="reg-form-wrapper">
+        <div class="mb-4">
+          <label class="form-label" for="reg-name">
+            <i class="fas fa-user me-2" style="color:var(--saffron);"></i>पूरा नाम *
+          </label>
+          <input type="text" id="reg-name" class="form-control" placeholder="अपना पूरा नाम लिखें" autocomplete="name"/>
+          <div class="invalid-feedback" id="name-err">कृपया अपना नाम दर्ज करें।</div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label" for="reg-phone">
+            <i class="fas fa-phone me-2" style="color:var(--saffron);"></i>मोबाइल नंबर *
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">🇮🇳 +91</span>
+            <input type="tel" id="reg-phone" class="form-control" placeholder="10 अंकों का नंबर" maxlength="10" inputmode="numeric"/>
+          </div>
+          <div class="invalid-feedback" id="phone-err" style="display:none;">कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।</div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">
+            <i class="fas fa-calendar-check me-2" style="color:var(--saffron);"></i>क्या आप प्रतिदिन मन्दिर दर्शन करते हैं? *
+          </label>
+          <div class="visit-toggle-group">
+            <input type="radio" name="daily-visit" id="visit-yes" value="yes"/>
+            <label for="visit-yes">🙏 हाँ, प्रतिदिन</label>
+            <input type="radio" name="daily-visit" id="visit-no" value="no"/>
+            <label for="visit-no">📅 कभी-कभी</label>
+            <input type="radio" name="daily-visit" id="visit-special" value="special"/>
+            <label for="visit-special">🎉 विशेष अवसर</label>
+          </div>
+          <div class="invalid-feedback" id="visit-err" style="display:none;">कृपया एक विकल्प चुनें।</div>
+        </div>
+
+        <div class="gold-divider"></div>
+
+        <button class="btn-reg-submit" id="reg-submit-btn" onclick="handleSubmit()">
+          <i class="fas fa-om me-2"></i> पंजीकरण करें
+        </button>
+
+        <div class="switch-link">
+          पहले से पंजीकृत हैं? <a onclick="switchTab('login')">यहाँ लॉगिन करें</a>
+        </div>
+      </div>
+
+      <!-- Register Success -->
+      <div id="success-box">
+        <div class="success-icon"><i class="fas fa-check"></i></div>
+        <div class="reg-id-badge" id="reg-id-badge">पंजीकरण #0000</div>
+        <h3 class="success-box-title">जय भोलेनाथ! 🙏</h3>
+        <p class="success-box-sub">
+          <span class="registered-name" id="display-name"></span>,<br/>
+          आपका पंजीकरण सफलतापूर्वक हो गया है।
+        </p>
+        <div class="gold-divider"></div>
+        <div class="download-row">
+          <button class="btn-download" onclick="generateAndDownloadPatra()">
+            <i class="fas fa-id-card"></i> प्रसाद पत्र डाउनलोड करें
+          </button>
+          <a href="About_Trivatinath.pdf" download="About_Trivatinath.pdf" class="btn-download maroon-btn">
+            <i class="fas fa-book-open"></i> मन्दिर पुस्तिका
+          </a>
+        </div>
+        <div class="mt-3" style="font-size:.8rem;color:var(--text-light);">
+          <i class="fas fa-info-circle me-1"></i>
+          प्रसाद पत्र आपके विवरण से स्वचालित रूप से बनाया गया है
+        </div>
+      </div>
+
+    </div><!-- /tab-register -->
+
+    <!-- ══════════ LOGIN TAB ══════════ -->
+    <div class="tab-pane" id="tab-login">
+
+      <div class="reg-card-header">
+        <div class="om-circle"><i class="fas fa-sign-in-alt" style="font-size:1.4rem;"></i></div>
+        <h2>लॉगिन करें</h2>
+        <p>अपना पंजीकृत मोबाइल नंबर दर्ज करें</p>
+      </div>
+
+      <div class="gold-divider"></div>
+
+      <div class="alert-box alert-error" id="login-error-box">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="login-error-msg">यह नंबर पंजीकृत नहीं है।</span>
+      </div>
+
+      <!-- Login Form -->
+      <div id="login-form-wrapper">
+        <div class="mb-4">
+          <label class="form-label" for="login-phone">
+            <i class="fas fa-phone me-2" style="color:var(--saffron);"></i>पंजीकृत मोबाइल नंबर *
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">🇮🇳 +91</span>
+            <input type="tel" id="login-phone" class="form-control" placeholder="10 अंकों का नंबर" maxlength="10" inputmode="numeric"/>
+          </div>
+          <div class="invalid-feedback" id="login-phone-err" style="display:none;">कृपया 10 अंकों का सही नंबर दर्ज करें।</div>
+        </div>
+
+        <div class="gold-divider"></div>
+
+        <button class="btn-reg-submit" id="login-submit-btn" onclick="handleLogin()">
+          <i class="fas fa-search me-2"></i> विवरण देखें
+        </button>
+
+        <div class="switch-link">
+          नए भक्त हैं? <a onclick="switchTab('register')">यहाँ पंजीकरण करें</a>
+        </div>
+      </div>
+
+      <!-- Login Success -->
+      <div id="login-success-box">
+        <div class="success-icon" style="background:linear-gradient(135deg,var(--maroon-deep),var(--maroon));">
+          <i class="fas fa-user-check"></i>
+        </div>
+        <div class="reg-id-badge" id="login-reg-id-badge">पंजीकरण #0000</div>
+        <h3 class="success-box-title">जय भोलेनाथ! 🙏</h3>
+        <p class="success-box-sub">
+          आपका पंजीकरण विवरण नीचे है
+        </p>
+
+        <table class="detail-table">
+          <tr><td>नाम</td><td id="login-detail-name">—</td></tr>
+          <tr><td>मोबाइल</td><td id="login-detail-phone">—</td></tr>
+          <tr><td>दर्शन प्रकार</td><td id="login-detail-visit">—</td></tr>
+          <tr><td>पंजीकरण तिथि</td><td id="login-detail-date">—</td></tr>
+        </table>
+
+        <div class="gold-divider"></div>
+        <div class="download-row">
+          <button class="btn-download" onclick="generateAndDownloadPatraFromLogin()">
+            <i class="fas fa-id-card"></i> प्रसाद पत्र
+          </button>
+          <a href="About_Trivatinath.pdf" download="About_Trivatinath.pdf" class="btn-download maroon-btn">
+            <i class="fas fa-book-open"></i> मन्दिर पुस्तिका
+          </a>
+        </div>
+        <div class="mt-3">
+          <a onclick="resetLogin()" style="color:var(--saffron);cursor:pointer;font-size:.85rem;">
+            <i class="fas fa-arrow-left me-1"></i> वापस जाएँ
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /tab-login -->
+
+  </div><!-- /reg-card -->
+</div>
+
+<!-- ── FOOTER ── -->
+<footer id="footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand-name">🛕 बाबा त्रिवटीनाथ मन्दिर</div>
+        <div style="font-size:1.4rem;color:var(--gold-bright);margin:.3rem 0 .8rem;opacity:.8;">ॐ नमः शिवाय</div>
+        <p class="footer-tagline">पांचाल क्षेत्र के हृदय में 608 से अधिक वर्षों से भक्ति और शांति का पोषण करने वाला अति-प्राचीन शिव तीर्थस्थल , बरेली का गौरव</p>
+        <div class="mt-3">
+          <a href="https://www.facebook.com/TrivatiNathMandirOrg" target="_blank" class="footer-social-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+          <a href="https://www.instagram.com/TrivatiNathMandir" target="_blank" class="footer-social-btn"><i class="fab fa-instagram"></i> Instagram</a>
+          <a href="https://youtube.com/@trivatinathmandirorg" target="_blank" class="footer-social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="footer-heading">महत्वपूर्ण लिंक</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>मुख्य पृष्ठ</a></li>
+          <li><a href="history.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>इतिहास एवं प्राकट्य</a></li>
+          <li><a href="additions.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>मन्दिर विकास</a></li>
+          <li><a href="management.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>प्रबंधन समिति</a></li>
+          <li><a href="events.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>आरती एवं कार्यक्रम</a></li>
+          <li><a href="live.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>🔴 लाइव आरती</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="footer-heading">संपर्क जानकारी</div>
+        <div class="footer-contact-item"><i class="fas fa-map-marker-alt mt-1"></i><span>बाबा त्रिवटीनाथ मन्दिर,प्रेम नगर नाथ नगरी बरेली, उत्तर प्रदेश भारत, 243005</span></div>
+        <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+91-581-2540667</span></div>
+        <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>info@trivatinathmandir.org</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 बाबा त्रिवटीनाथ मन्दिर सेवा समिति। सर्वाधिकार सुरक्षित।</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const API_BASE = '';
+
+  // ── Stored registration data for PDF generation ──
+  let currentRegData = null;
+  let currentLoginData = null;
+
+  // ════════════════════════════════════════════════
+  //  TAB SWITCHER
+  // ════════════════════════════════════════════════
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab + '-btn').classList.add('active');
+  }
+
+  // ════════════════════════════════════════════════
+  //  REGISTER — Validation
+  // ════════════════════════════════════════════════
+  function validateForm() {
+    let valid = true;
+    const nameEl  = document.getElementById('reg-name');
+    const nameErr = document.getElementById('name-err');
+    if (!nameEl.value.trim()) {
+      nameEl.classList.add('is-invalid'); nameErr.style.display = 'block'; valid = false;
+    } else {
+      nameEl.classList.remove('is-invalid'); nameErr.style.display = 'none';
+    }
+    const phoneEl  = document.getElementById('reg-phone');
+    const phoneErr = document.getElementById('phone-err');
+    if (phoneEl.value.replace(/\D/g,'').length !== 10) {
+      phoneEl.classList.add('is-invalid'); phoneErr.style.display = 'block'; valid = false;
+    } else {
+      phoneEl.classList.remove('is-invalid'); phoneErr.style.display = 'none';
+    }
+    const visitErr = document.getElementById('visit-err');
+    if (!document.querySelector('input[name="daily-visit"]:checked')) {
+      visitErr.style.display = 'block'; valid = false;
+    } else {
+      visitErr.style.display = 'none';
+    }
+    return valid;
+  }
+
+  // ════════════════════════════════════════════════
+  //  REGISTER — Submit
+  // ════════════════════════════════════════════════
+  async function handleSubmit() {
+    document.getElementById('api-error-box').style.display = 'none';
+    document.getElementById('duplicate-box').style.display = 'none';
+    if (!validateForm()) return;
+
+    const btn     = document.getElementById('reg-submit-btn');
+    const nameEl  = document.getElementById('reg-name');
+    const phoneEl = document.getElementById('reg-phone');
+    const visitEl = document.querySelector('input[name="daily-visit"]:checked');
+
+    btn.disabled  = true;
+    btn.innerHTML = '<span class="spinner"></span> पंजीकरण हो रहा है...';
+
+    try {
+      const response = await fetch(`${API_BASE}/api/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name  : nameEl.value.trim(),
+          phone      : phoneEl.value.replace(/\D/g,''),
+          visit_type : visitEl.value
+        })
+      });
+      const result = await response.json();
+
+      if (response.status === 409) {
+        document.getElementById('duplicate-box').style.display = 'block';
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-om me-2"></i> पंजीकरण करें';
+        return;
+      }
+      if (!response.ok || !result.success) throw new Error(result.errors?.join(', ') || 'Server error');
+
+      // Success
+      const padded = String(result.id).padStart(4, '0');
+      currentRegData = {
+        name      : result.data.full_name,
+        phone     : result.data.phone,
+        visitType : result.data.visit_type,
+        regId     : padded,
+        regDate   : new Date(result.data.registered_at || Date.now())
+      };
+
+      document.getElementById('display-name').textContent = result.data.full_name;
+      document.getElementById('reg-id-badge').textContent = `पंजीकरण #${padded}`;
+      document.getElementById('reg-form-wrapper').style.display = 'none';
+      document.getElementById('success-box').style.display = 'block';
+      document.querySelector('.reg-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Auto-generate prasad patra
+      generatePrasadPatra(currentRegData);
+
+    } catch (err) {
+      document.getElementById('api-error-msg').textContent   = err.message || 'सर्वर से जुड़ने में समस्या हुई।';
+      document.getElementById('api-error-box').style.display = 'block';
+      btn.disabled  = false;
+      btn.innerHTML = '<i class="fas fa-om me-2"></i> पुनः प्रयास करें';
+    }
+  }
+
+  function generateAndDownloadPatra() { generatePrasadPatra(currentRegData); }
+
+  // ════════════════════════════════════════════════
+  //  LOGIN — Submit
+  // ════════════════════════════════════════════════
+  async function handleLogin() {
+    document.getElementById('login-error-box').style.display = 'none';
+    const phoneEl  = document.getElementById('login-phone');
+    const phoneErr = document.getElementById('login-phone-err');
+    const phone    = phoneEl.value.replace(/\D/g,'');
+
+    if (phone.length !== 10) {
+      phoneEl.classList.add('is-invalid'); phoneErr.style.display = 'block'; return;
+    }
+    phoneEl.classList.remove('is-invalid'); phoneErr.style.display = 'none';
+
+    const btn = document.getElementById('login-submit-btn');
+    btn.disabled  = true;
+    btn.innerHTML = '<span class="spinner"></span> खोज रहे हैं...';
+
+    try {
+      const response = await fetch(`${API_BASE}/api/registrations`);
+      const result   = await response.json();
+      if (!result.success) throw new Error('Server error');
+
+      const record = result.data.find(r => r.phone === phone);
+      if (!record) {
+        document.getElementById('login-error-msg').textContent   = 'यह नंबर पंजीकृत नहीं है। कृपया पहले पंजीकरण करें।';
+        document.getElementById('login-error-box').style.display = 'block';
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-search me-2"></i> विवरण देखें';
+        return;
+      }
+
+      // Found — show details
+      const padded = String(record.id).padStart(4, '0');
+      const visitLabel = record.visit_type === 'yes'
+        ? '🙏 हाँ, प्रतिदिन'
+        : record.visit_type === 'no'
+          ? '📅 कभी-कभी'
+          : '🎉 विशेष अवसर पर';
+      const dateStr = new Date(record.registered_at).toLocaleDateString('hi-IN', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      });
+
+      currentLoginData = {
+        name      : record.full_name,
+        phone     : record.phone,
+        visitType : record.visit_type,
+        regId     : padded,
+        regDate   : new Date(record.registered_at)
+      };
+
+      document.getElementById('login-reg-id-badge').textContent = `पंजीकरण #${padded}`;
+      document.getElementById('login-detail-name').textContent   = record.full_name;
+      document.getElementById('login-detail-phone').textContent  = `+91-${record.phone}`;
+      document.getElementById('login-detail-visit').textContent  = visitLabel;
+      document.getElementById('login-detail-date').textContent   = dateStr;
+
+      document.getElementById('login-form-wrapper').style.display   = 'none';
+      document.getElementById('login-success-box').style.display    = 'block';
+      document.querySelector('.reg-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (err) {
+      document.getElementById('login-error-msg').textContent   = 'सर्वर से जुड़ने में समस्या हुई।';
+      document.getElementById('login-error-box').style.display = 'block';
+      btn.disabled  = false;
+      btn.innerHTML = '<i class="fas fa-search me-2"></i> विवरण देखें';
+    }
+  }
+
+  function generateAndDownloadPatraFromLogin() { generatePrasadPatra(currentLoginData); }
+
+  function resetLogin() {
+    document.getElementById('login-form-wrapper').style.display  = 'block';
+    document.getElementById('login-success-box').style.display   = 'none';
+    document.getElementById('login-phone').value = '';
+    document.getElementById('login-submit-btn').disabled  = false;
+    document.getElementById('login-submit-btn').innerHTML = '<i class="fas fa-search me-2"></i> विवरण देखें';
+  }
+
+  // ════════════════════════════════════════════════
+  //  PRASAD PATRA — jsPDF Generator
+  // ════════════════════════════════════════════════
+  function generatePrasadPatra(data) {
+    if (!data) return;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const W = 210, H = 297;
+    const saffron  = [212, 96, 10];
+    const maroon   = [92, 18, 18];
+    const gold     = [200, 146, 58];
+    const cream    = [255, 248, 235];
+    const white    = [255, 255, 255];
+    const darkText = [40, 20, 10];
+
+    // Background
+    doc.setFillColor(...cream);
+    doc.rect(0, 0, W, H, 'F');
+
+    // Outer border
+    doc.setDrawColor(...gold); doc.setLineWidth(1.2);
+    doc.rect(8, 8, W-16, H-16);
+    doc.setLineWidth(0.4);
+    doc.rect(10, 10, W-20, H-20);
+
+    // Header band
+    doc.setFillColor(...maroon);
+    doc.rect(8, 8, W-16, 44, 'F');
+
+    // Gold accent line under header
+    doc.setFillColor(...gold);
+    doc.rect(8, 52, W-16, 1.5, 'F');
+
+    // Header text
+    doc.setTextColor(...gold);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(26);
+    doc.text('OM  NAMAH  SHIVAYA', W/2, 23, { align: 'center' });
+    doc.setFontSize(11);
+    doc.setTextColor(240, 220, 180);
+    doc.text('Baba Trivatinath Mandir Seva Samiti', W/2, 33, { align: 'center' });
+    doc.setFontSize(8.5);
+    doc.text('Nath Nagri, Bareilly, UP, India  |  www.trivatinathmandir.org  |  +91-581-2540667', W/2, 41, { align: 'center' });
+
+    // Saffron badge strip
+    doc.setFillColor(...saffron);
+    doc.rect(8, 53.5, W-16, 14, 'F');
+    doc.setTextColor(...white);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(13);
+    doc.text('BHAKT PANJIKARAN  —  PRASAD PATRA', W/2, 63, { align: 'center' });
+
+    // Registration ID pill
+    doc.setFillColor(...gold);
+    doc.roundedRect(W/2-32, 73, 64, 11, 3, 3, 'F');
+    doc.setTextColor(...maroon);
+    doc.setFontSize(10); doc.setFont('helvetica', 'bold');
+    doc.text(`Registration  No:  #${data.regId}`, W/2, 80.5, { align: 'center' });
+
+    // Details card
+    doc.setFillColor(255, 253, 248);
+    doc.setDrawColor(...gold); doc.setLineWidth(0.5);
+    doc.roundedRect(18, 90, W-36, 96, 4, 4, 'FD');
+
+    // Details header
+    doc.setFillColor(...maroon);
+    doc.roundedRect(18, 90, W-36, 12, 4, 4, 'F');
+    doc.rect(18, 96, W-36, 6, 'F');
+    doc.setTextColor(...white); doc.setFontSize(10);
+    doc.text('REGISTRATION  DETAILS', W/2, 98.5, { align: 'center' });
+
+    // Rows
+    const labelX = 26, valueX = 90, rowH = 16;
+    let rowY = 112;
+
+    const visitLabel = data.visitType === 'yes'
+      ? 'Daily (Pratideen)'
+      : data.visitType === 'no' ? 'Occasional (Kabhi-Kabhi)' : 'Special Occasions (Vishesh Avsar)';
+
+    const dateStr = data.regDate.toLocaleDateString('en-IN', {
+      day: '2-digit', month: 'long', year: 'numeric'
+    });
+
+    const rows = [
+      ['Devotee Name:', data.name],
+      ['Mobile Number:', `+91-${data.phone}`],
+      ['Visit Frequency:', visitLabel],
+      ['Registration Date:', dateStr],
+      ['Status:', 'Confirmed & Active  ✓'],
+    ];
+
+    rows.forEach(([label, value], i) => {
+      if (i % 2 === 0) {
+        doc.setFillColor(255, 250, 240);
+        doc.rect(19, rowY-5, W-38, rowH, 'F');
+      }
+      doc.setTextColor(...maroon); doc.setFontSize(8.5); doc.setFont('helvetica', 'bold');
+      doc.text(label, labelX, rowY+3);
+      doc.setTextColor(...darkText); doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5);
+      doc.text(value, valueX, rowY+3);
+      rowY += rowH;
+    });
+
+    // Blessings box
+    doc.setFillColor(...maroon);
+    doc.roundedRect(18, 195, W-36, 50, 4, 4, 'F');
+
+    doc.setTextColor(...gold);
+    doc.setFontSize(14); doc.setFont('helvetica', 'bold');
+    doc.text('JAY BABA TRIVATINATH  🙏', W/2, 210, { align: 'center' });
+
+    doc.setTextColor(240, 220, 180);
+    doc.setFontSize(8.5); doc.setFont('helvetica', 'normal');
+    doc.text(
+      `Priya Bhakt ${data.name}, Baba Trivatinath ka ashirwad sada aap par bana rahe.`,
+      W/2, 221, { align: 'center', maxWidth: W-60 }
+    );
+    doc.text(
+      'Aapka mandir parivar mein swagat hai. Mandir ke darwaze sada aapke liye khule hain.',
+      W/2, 230, { align: 'center', maxWidth: W-60 }
+    );
+    doc.text('OM NAMAH SHIVAYA  ||  OM NAMAH SHIVAYA  ||  OM NAMAH SHIVAYA', W/2, 239, { align: 'center', maxWidth: W-60 });
+
+    // Footer strip
+    doc.setFillColor(...gold);
+    doc.rect(18, 253, W-36, 0.8, 'F');
+    doc.setTextColor(...maroon);
+    doc.setFontSize(8); doc.setFont('helvetica', 'bold');
+    doc.text('Baba Trivatinath Mandir Seva Samiti', W/2, 261, { align: 'center' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(80, 40, 10);
+    doc.text('Baba Tibarinath Mandir Marg, Prem Nagar, Bareilly - 243005, UP, India', W/2, 268, { align: 'center' });
+    doc.text('Tel: +91-581-254-0667  |  www.trivatinathmandir.org', W/2, 275, { align: 'center' });
+
+    // Corner dots
+    [[14,14],[W-14,14],[14,H-14],[W-14,H-14]].forEach(([cx,cy]) => {
+      doc.setFillColor(...gold); doc.circle(cx, cy, 2, 'F');
+    });
+
+    // Watermark note
+    doc.setFontSize(6.5); doc.setTextColor(160, 110, 60);
+    doc.text('* Yah patra electronically generated hai. Kisi hastaakshar ki aavashyakta nahi.', W/2, H-12, { align: 'center' });
+
+    // Open in new tab + download
+    window.open(doc.output('bloburl'), '_blank');
+    doc.save(`Trivatinath_PrasadPatra_${data.regId}.pdf`);
+  }
+
+  // ── Only digits ──
+  ['reg-phone','login-phone'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g,'').slice(0,10);
+    });
+  });
+</script>
+
+</body>
+</html>

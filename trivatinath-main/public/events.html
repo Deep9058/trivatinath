@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>बाबा त्रिवटीनाथ मन्दिर</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <link href="style.css" rel="stylesheet"/>
+
+  <style>
+    /* ── Page-specific: Events ── */
+
+    /* Aarti Table */
+    .aarti-table-wrap {
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .aarti-table { margin: 0; background: #fff; }
+    .aarti-table thead th {
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-deep));
+      color: var(--gold-bright);
+      font-family: 'Cinzel', serif;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      border: none;
+      padding: 1rem 1.5rem;
+      text-align: center;
+    }
+    .aarti-table tbody td {
+      text-align: center;
+      font-size: .9rem;
+      color: var(--text-mid);
+      vertical-align: middle;
+      border-color: #f0e0c0;
+      padding: .75rem 1.2rem;
+    }
+    .aarti-table tbody tr:nth-child(odd) td  { background: var(--cream); }
+    .aarti-table tbody tr:nth-child(even) td { background: #fff; }
+
+    .period-row td {
+      background: linear-gradient(90deg, #f3e8d0, var(--cream-dark)) !important;
+      font-family: 'Cinzel', serif;
+      font-size: .72rem;
+      color: var(--saffron) !important;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .55rem 1.5rem !important;
+      font-weight: 600;
+    }
+    .period-row td i { margin-right: .4rem; }
+
+    .aarti-name {
+      font-family: 'Cinzel', serif;
+      font-size: .82rem;
+      color: var(--maroon);
+      font-weight: 600;
+    }
+    .time-pill {
+      display: inline-block;
+      background: var(--saffron);
+      color: #fff;
+      font-size: .75rem;
+      font-family: 'Cinzel', serif;
+      padding: .2rem .75rem;
+      border-radius: 20px;
+      letter-spacing: .05em;
+    }
+    .time-pill.winter { background: var(--maroon); }
+
+    /* Season legend */
+    .season-legend {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .season-badge {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: 'Cinzel', serif;
+      font-size: .78rem;
+      color: var(--text-mid);
+    }
+    .season-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+    .dot-summer { background: var(--saffron); }
+    .dot-winter { background: var(--maroon); }
+
+    /* Festival cards */
+    .festival-card {
+      background: #fff;
+      border: 1px solid #e8d5b0;
+      border-left: 4px solid var(--saffron);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+      height: 100%;
+    }
+    .festival-card:hover {
+      transform: translateX(5px);
+      box-shadow: var(--shadow-md);
+    }
+    .festival-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: .15rem;
+    }
+    .festival-card h5 {
+      font-family: 'Cinzel', serif;
+      font-size: .9rem;
+      color: var(--maroon);
+      margin-bottom: .3rem;
+    }
+    .festival-card p {
+      font-size: .86rem;
+      color: var(--text-mid);
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    /* Info boxes */
+    .info-box {
+      background: linear-gradient(135deg, var(--cream), var(--cream-dark));
+      border: 1px solid #e0ccb0;
+      border-radius: var(--radius);
+      padding: 2rem;
+      text-align: center;
+      height: 100%;
+      transition: box-shadow var(--transition);
+    }
+    .info-box:hover { box-shadow: var(--shadow-md); }
+    .info-box-icon {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+    }
+    .info-box h5 {
+      font-family: 'Cinzel', serif;
+      font-size: .88rem;
+      color: var(--maroon);
+      margin-bottom: .6rem;
+    }
+    .info-box p {
+      font-size: .86rem;
+      color: var(--text-mid);
+      margin: 0;
+    }
+
+    /* Darshan rules */
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: .85rem;
+      padding: .9rem 0;
+      border-bottom: 1px dashed #e0ccb0;
+    }
+    .rule-item:last-child { border-bottom: none; }
+    .rule-item i {
+      color: var(--saffron);
+      font-size: 1rem;
+      margin-top: .2rem;
+      flex-shrink: 0;
+    }
+    .rule-item span { font-size: .9rem; color: var(--text-mid); }
+
+    /* Notice banner */
+    .notice-banner {
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-deep));
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: var(--shadow-md);
+    }
+    .notice-banner i { font-size: 2rem; color: var(--gold-bright); flex-shrink: 0; }
+    .notice-banner h5 {
+      font-family: 'Cinzel', serif;
+      font-size: .9rem;
+      color: var(--gold-bright);
+      margin-bottom: .3rem;
+    }
+    .notice-banner p { font-size: .87rem; color: #e0c8a0; margin: 0; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav id="mainNav" class="navbar navbar-expand-lg">
+  <div class="container">
+    
+<a class="navbar-brand" href="index.html">
+  <img src="mandir-logo.png" alt="Mandir Logo" class="custom-logo"/>
+  <div>
+    <div class="brand-text-main">बाबा त्रिवटीनाथ मन्दिर</div>
+    <div class="brand-text-sub">नाथ नगरी, बरेली</div>
+  </div>
+</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">मुख्य पृष्ठ</a></li>
+        <li class="nav-item"><a class="nav-link" href="history.html">इतिहास</a></li>
+        <li class="nav-item"><a class="nav-link" href="additions.html">मन्दिर विकास</a></li>
+        <li class="nav-item"><a class="nav-link active-page" href="events.html">कार्यक्रम व आरती</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="live.html" style="display:flex;align-items:center;gap:.4rem;">
+            <span class="live-dot" style="width:7px;height:7px;display:inline-block;border-radius:50%;background:#e00;animation:live-pulse 1.4s ease-in-out infinite;"></span>&nbsp;लाइव आरती
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="register.html">पंजीकरण</a></li>
+        <li class="nav-item"><a class="nav-link" href="management.html">प्रबंधन समिति</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════ PAGE HERO ══════════════ -->
+<div class="page-hero">
+  <div class="page-hero-om">ॐ</div>
+  <p class="page-hero-eyebrow">आध्यात्मिक सद्भाव</p>
+  <h1 class="page-hero-title">कार्यक्रम व आरती</h1>
+  <p class="page-hero-sub">दिव्य ऊर्जा का अनुभव करें — प्रतिदिन आरती एवं विशेष उत्सव</p>
+  <div class="hero-breadcrumb">
+    <a href="index.html">मुख्य पृष्ठ</a>
+    <span>›</span>
+    <span style="color:#e8c9a0;">कार्यक्रम व आरती</span>
+  </div>
+</div>
+
+<!-- ══════════════ NOTICE BANNER ══════════════ -->
+<section class="main-content" style="padding-top:2.5rem; padding-bottom:1rem;">
+  <div class="container">
+    <div class="notice-banner">
+      <i class="fas fa-bell"></i>
+      <div>
+        <h5>विशेष सूचना</h5>
+        <p>सावन माह, महाशिवरात्रि एवं अन्य विशेष पर्वों पर आरती का समय परिवर्तित हो सकता है। अद्यतन जानकारी हेतु मन्दिर कार्यालय से सम्पर्क करें।</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ AARTI TIMINGS ══════════════ -->
+<section class="main-content pattern-bg" style="padding-top:2.5rem;">
+  <div class="container">
+    <div class="text-center mb-4">
+      <p class="section-eyebrow">दैनिक दर्शन</p>
+      <h2 class="section-title">दैनिक आरती अनुसूची</h2>
+      <div class="gold-rule"></div>
+      <p class="section-lead">प्रातः और संध्या काल की आरतियों के दौरान दिव्य ऊर्जा का अनुभव करें। आरती दर्शन सभी भक्तों के लिए निःशुल्क है।</p>
+    </div>
+
+    <!-- Legend -->
+    <div class="season-legend">
+      <div class="season-badge">
+        <div class="season-dot dot-summer"></div>
+        <span>ग्रीष्म काल (गर्मी)</span>
+      </div>
+      <div class="season-badge">
+        <div class="season-dot dot-winter"></div>
+        <span>शरद काल (सर्दी)</span>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="aarti-table-wrap">
+          <table class="table table-bordered aarti-table">
+            <thead>
+              <tr>
+                <th style="width:28%;">ग्रीष्म काल</th>
+                <th style="width:44%;">आरती का नाम</th>
+                <th style="width:28%;">शरद काल</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Morning -->
+              <tr class="period-row">
+                <td colspan="3"><i class="fas fa-sun"></i> प्रातः काल</td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">06:00 बजे</span></td>
+                <td><span class="aarti-name">मंगला आरती</span></td>
+                <td><span class="time-pill winter">06:30 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">07:00 बजे</span></td>
+                <td><span class="aarti-name">श्रृंगार आरती</span></td>
+                <td><span class="time-pill winter">07:30 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">11:00 बजे</span></td>
+                <td><span class="aarti-name">राजभोग आरती</span></td>
+                <td><span class="time-pill winter">11:30 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">11:30 बजे</span></td>
+                <td><span class="aarti-name">मध्यान्ह आरती</span></td>
+                <td><span class="time-pill winter">12:00 बजे</span></td>
+              </tr>
+              <!-- Evening -->
+              <tr class="period-row">
+                <td colspan="3"><i class="fas fa-moon"></i> सांयकाल</td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">05:00 बजे</span></td>
+                <td><span class="aarti-name">उत्थान आरती</span></td>
+                <td><span class="time-pill winter">04:00 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">07:00 बजे</span></td>
+                <td><span class="aarti-name">संध्या आरती</span></td>
+                <td><span class="time-pill winter">06:00 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">08:00 बजे</span></td>
+                <td><span class="aarti-name">राजभोग आरती</span></td>
+                <td><span class="time-pill winter">07:00 बजे</span></td>
+              </tr>
+              <tr>
+                <td><span class="time-pill">09:30 बजे</span></td>
+                <td><span class="aarti-name">शयन आरती</span></td>
+                <td><span class="time-pill winter">09:00 बजे</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ QUICK INFO ══════════════ -->
+<section class="main-content alt-bg">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow">दर्शनार्थियों के लिए</p>
+      <h2 class="section-title">महत्वपूर्ण जानकारी</h2>
+      <div class="gold-rule"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <div class="info-box">
+          <div class="info-box-icon">🕕</div>
+          <h5>मन्दिर खुलने का समय</h5>
+          <p>प्रातः 5:30 बजे से रात्रि 09:30 बजे तक। सावन एवं विशेष पर्वों पर विशेष समय।</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-box">
+          <div class="info-box-icon">📍</div>
+          <h5>स्थान</h5>
+          <p>प्रेम नगर नाथ नगरी बरेली, उत्तर प्रदेश भारत। बरेली रेलवे स्टेशन से लगभग 3 कि.मी. की दूरी पर।</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-box">
+          <div class="info-box-icon">📞</div>
+          <h5>सम्पर्क</h5>
+          <p>+91-581-2540667<br/>info@trivatinathmandir.org</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="info-box">
+          <div class="info-box-icon">🆓</div>
+          <h5>प्रवेश</h5>
+          <p>मन्दिर में प्रवेश एवं आरती दर्शन सभी भक्तों के लिए पूर्णतः निःशुल्क है।</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FESTIVALS ══════════════ -->
+<section class="main-content pattern-bg">
+  <div class="container">
+    <div class="text-center mb-5">
+      <p class="section-eyebrow">विशेष उत्सव</p>
+      <h2 class="section-title">प्रमुख पर्व एवं उत्सव</h2>
+      <div class="gold-rule"></div>
+      <p class="section-lead">इन विशेष अवसरों पर मन्दिर में भव्य आयोजन, विशेष अभिषेक, एवं भण्डारे का आयोजन किया जाता है।</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🔱</div>
+          <div>
+            <h5>महाशिवरात्रि</h5>
+            <p>वर्ष का सबसे प्रमुख पर्व। अलोकिक साज-सज्जा विशेष रुद्राभिषेक, एवं महाआरती। लाखों भक्त दर्शन के लिए आते हैं।</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🌊</div>
+          <div>
+            <h5>सावन माह</h5>
+            <p>श्रावण मास के प्रत्येक सोमवार को विशेष जलाभिषेक एवं रुद्राष्टाध्यायी पाठ। कांवड़ यात्रा का विशेष महत्व।</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🪔</div>
+          <div>
+            <h5>दीपावली</h5>
+            <p>भव्य दीपोत्सव, मन्दिर परिसर में हजारों दीपों की रोशनी एवं विशेष लक्ष्मी-गणेश आरती का आयोजन।</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🌸</div>
+          <div>
+            <h5>बसंत पंचमी</h5>
+            <p>सरस्वती पूजन एवं विशेष श्रृंगार आरती। मन्दिर परिसर को पीले फूलों से सजाया जाता है।</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🎉</div>
+          <div>
+            <h5>श्री कृष्ण जन्माष्टमी</h5>
+            <p>भव्य साज-सज्जा, रात्रि 12 बजे बाल गोपाल का जन्मोत्सव, प्रसाद वितरण एवं विशेष आरती</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="festival-card">
+          <div class="festival-icon">🙏</div>
+          <div>
+            <h5>नवरात्रि</h5>
+            <p>माँ दुर्गा भवन "जय भवानी" में नौ दिन विशेष पूजन, दुर्गा सप्तशती पाठ एवं नवमी पर भव्य महाआरती।</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ DARSHAN RULES ══════════════ -->
+<section class="main-content alt-bg">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="text-center mb-4">
+          <p class="section-eyebrow">दर्शन मार्गदर्शन</p>
+          <h2 class="section-title">दर्शन नियम एवं सुझाव</h2>
+          <div class="gold-rule"></div>
+        </div>
+        <div style="background:#fff; border:1px solid #e8d5b0; border-radius:var(--radius); padding:2rem; box-shadow:var(--shadow-sm);">
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>मन्दिर परिसर में प्रवेश से पूर्व जूते-चप्पल बाहर उतारें। जूता-स्टैंड की सुविधा उपलब्ध है।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>मर्यादित एवं शालीन वेशभूषा धारण करके आएं। पूजा-अर्चना हेतु सात्विक वातावरण बनाए रखें।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>मन्दिर परिसर में फोटोग्राफी एवं वीडियोग्राफी के लिए प्रबंधन समिति से पूर्वानुमति लें।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>आरती के समय शांति बनाए रखें एवं मोबाइल को साइलेंट मोड पर रखें।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>मन्दिर परिसर में स्वच्छता बनाए रखें। कूड़ा निर्धारित स्थान पर ही डालें।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>मंदिर में धूप-दीपक नियत स्थान पर ही जलाएं।</span>
+          </div>
+          <div class="rule-item">
+            <i class="fas fa-check-circle"></i>
+            <span>विशेष पूजा (रुद्राभिषेक, सत्यनारायण कथा) के लिए मन्दिर कार्यालय से पूर्व-पंजीकरण करवाएं।</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ CONTACT CTA ══════════════ -->
+<section class="main-content pattern-bg" style="padding: 3.5rem 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <div style="font-size:2.5rem; margin-bottom:.5rem; color:var(--gold); opacity:.8;">ॐ</div>
+        <h2 class="section-title" style="margin-bottom:.5rem;">सम्पर्क करें</h2>
+        <div class="gold-rule"></div>
+        <p class="section-lead">किसी भी जानकारी, विशेष पूजा बुकिंग, या कार्यक्रम की जानकारी हेतु हमसे सम्पर्क करें।</p>
+        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+          <a href="tel:+915812540667" class="btn-saffron-solid">
+            <i class="fas fa-phone me-2"></i>+91-581-2540667
+          </a>
+          <a href="mailto:info@trivatinathmandir.org" class="btn-outline-saffron">
+            <i class="fas fa-envelope me-2"></i>info@trivatinathmandir.org
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer id="footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-brand-name">🛕 बाबा त्रिवटीनाथ मन्दिर</div>
+        <div style="font-size:1.4rem;color:var(--gold-bright);margin:.3rem 0 .8rem;opacity:.8;">ॐ नमः शिवाय</div>
+        <p class="footer-tagline">पांचाल क्षेत्र के हृदय में 608 से अधिक वर्षों से भक्ति और शांति का पोषण करने वाला अति-प्राचीन शिव तीर्थस्थल , बरेली का गौरव</p>
+        <div class="mt-3">
+          <a href="https://www.facebook.com/TrivatiNathMandirOrg" target="_blank" class="footer-social-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+          <a href="https://www.instagram.com/TrivatiNathMandir" target="_blank" class="footer-social-btn"><i class="fab fa-instagram"></i> Instagram</a>
+          <a href="https://youtube.com/@trivatinathmandirorg" target="_blank" class="footer-social-btn"><i class="fab fa-youtube"></i> YouTube</a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="footer-heading">महत्वपूर्ण लिंक</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>मुख्य पृष्ठ</a></li>
+          <li><a href="history.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>इतिहास एवं प्राकट्य</a></li>
+          <li><a href="additions.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>मन्दिर विकास</a></li>
+          <li><a href="management.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>प्रबंधन समिति</a></li>
+          <li><a href="events.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>आरती एवं कार्यक्रम</a></li>
+          <li><a href="live.html"><i class="fas fa-chevron-right me-2" style="font-size:.6rem;color:var(--saffron);"></i>🔴 लाइव आरती</a></li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-6 col-lg-4">
+        <div class="footer-heading">संपर्क जानकारी</div>
+        <div class="footer-contact-item"><i class="fas fa-map-marker-alt mt-1"></i><span>बाबा त्रिवटीनाथ मन्दिर,प्रेम नगर नाथ नगरी बरेली, उत्तर प्रदेश भारत, 243005</span></div>
+        <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+91-581-2540667</span></div>
+        <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>info@trivatinathmandir.org</span></div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 बाबा त्रिवटीनाथ मन्दिर सेवा समिति। सर्वाधिकार सुरक्षित।</div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
