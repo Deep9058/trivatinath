@@ -76,3 +76,4 @@ Your site is live at:
 |----------|--------------------|
 | Vercel   | Unlimited deployments, 100GB bandwidth, serverless functions |
 | Supabase | 500MB database, 50,000 users/month |
+"# trivatinath" 
